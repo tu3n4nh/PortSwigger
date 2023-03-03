@@ -1,0 +1,9 @@
+This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables. To construct such an attack, you first need to determine the number of columns returned by the query. You can do this using a technique you learned in a previous lab. The next step is to identify a column that is compatible with string data.
+
+The lab will provide a random value that you need to make appear within the query results. To solve the lab, perform an SQL injection UNION attack that returns an additional row containing the value provided. This technique helps you determine which columns are compatible with string data. 
+
+url:        https://0afb00ef03593879c0b56a780054009b.web-security-academy.net/
+
+After determine the number of columns returned we probe each column to find out the column that is compatible to hold results from the inject query. 
+
+payload:    https://0afb00ef03593879c0b56a780054009b.web-security-academy.net/'+union+select+null,'bp65vC',null--

